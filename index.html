@@ -1,4 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kyoto Guide">
+<meta name="theme-color" content="#1C1C1A">
+<title>Kyoto · Osaka · Nara — 4 Days</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --red:#D85A30;--red-light:#FAECE7;--red-dark:#712B13;
+  --teal:#1D9E75;--teal-light:#E1F5EE;--teal-dark:#085041;
+  --amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#412402;
+  --purple:#534AB7;--purple-light:#EEEDFE;--purple-dark:#26215C;
+  --blue:#185FA5;--blue-light:#E6F1FB;--blue-dark:#042C53;
+  --coral:#993C1D;--coral-light:#FAECE7;
+  --green:#3B6D11;--green-light:#EAF3DE;
+  --gray:#5F5E5A;--gray-light:#F1EFE8;
+  --re-bg:#FCEBEB;--re-text:#A32D2D;--re-dark:#791F1F;
+  --bg:#FAFAF7;--surface:#FFFFFF;--border:#E8E6E0;
+  --text:#1C1C1A;--text2:#5A5955;--text3:#9A9895;
+  --header-h:56px;--nav-h:48px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;padding-bottom:env(safe-area-inset-bottom)}
+.site-header{background:var(--text);color:#fff;padding:12px 16px 10px;padding-top:calc(12px + env(safe-area-inset-top));position:sticky;top:0;z-index:100;height:var(--header-h);display:flex;flex-direction:column;justify-content:center}
+.site-header h1{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;letter-spacing:-.2px;margin-bottom:1px;line-height:1.2}
+.site-header p{font-size:11px;opacity:.5;letter-spacing:.03em;text-transform:uppercase}
+.day-nav{display:flex;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:var(--header-h);z-index:90;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;height:var(--nav-h)}
+.day-nav::-webkit-scrollbar{display:none}
+.day-btn{flex-shrink:0;padding:0 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--text3);background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;text-align:center;line-height:1.3;white-space:nowrap;transition:all .2s;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:80px}
+.day-btn.on{color:var(--red);border-bottom-color:var(--red);font-weight:600}
+.day-btn span{display:block;font-size:10px;opacity:.65;margin-top:1px;letter-spacing:.03em}
+.day-panel{display:none;max-width:680px;margin:0 auto;padding:16px 14px 80px}
+.day-panel.on{display:block}
+.day-head{margin-bottom:16px}
+.day-head h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;color:var(--text);margin-bottom:3px}
+.day-head p{font-size:12px;color:var(--text2);line-height:1.5}
+.depart{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.depart-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.depart-title .icon{font-size:18px}
+.routes{display:flex;flex-direction:column;gap:8px}
+.route{background:var(--bg);border-radius:10px;padding:11px 13px;border:1px solid var(--border)}
+.route-label{font-size:10px;font-weight:600;color:var(--red);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.route-time{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px}
+.route-detail{font-size:12px;color:var(--text2);line-height:1.55}
+.dist-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;background:var(--gray-light);color:var(--gray);padding:4px 10px;border-radius:20px;margin-bottom:10px}
+.alert{background:var(--re-bg);border-left:3px solid var(--re-text);border-radius:0 10px 10px 0;padding:11px 14px;font-size:13px;color:var(--re-text);margin-bottom:14px;line-height:1.6}
+.alert strong{font-weight:600;color:var(--re-dark)}
+.conn{display:flex;align-items:center;gap:8px;padding:6px 0;color:var(--text3);font-size:11px;margin:2px 0}
+.conn-line{flex:1;height:1px;background:var(--border)}
+.stop{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px}
+.stop-hdr{padding:14px 15px;cursor:pointer;display:flex;align-items:flex-start;gap:11px;min-height:60px;-webkit-user-select:none;user-select:none}
+.stop-hdr:active{background:#F5F4F0}
+.stop-ico{font-size:22px;flex-shrink:0;line-height:1}
+.stop-meta{flex:1;min-width:0}
+.stop-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px;line-height:1.3}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+.tag{font-size:10px;font-weight:500;padding:3px 8px;border-radius:20px;line-height:1.4}
+.tt{background:var(--amber-light);color:#7C4A00}
+.tk{background:var(--purple-light);color:var(--purple)}
+.tf{background:var(--coral-light);color:var(--red-dark)}
+.ts{background:var(--blue-light);color:var(--blue-dark)}
+.tc{background:var(--gray-light);color:var(--gray)}
+.ta{background:var(--re-bg);color:var(--re-text)}
+.tg{background:var(--gray-light);color:var(--text2)}
+.chev{font-size:12px;color:var(--text3);flex-shrink:0;margin-top:2px;transition:transform .2s;width:20px;text-align:center}
+.chev.on{transform:rotate(180deg)}
+.stop-body{display:none;border-top:1px solid var(--border)}
+.stop-body.on{display:block}
+.itabs{display:flex;border-bottom:1px solid var(--border);background:#F7F6F2;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.itabs::-webkit-scrollbar{display:none}
+.itab{flex-shrink:0;padding:11px 14px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;-webkit-user-select:none;user-select:none}
+.itab.on{color:var(--red);border-bottom-color:var(--red);background:var(--surface)}
+.itab:active:not(.on){background:#EFEDE8}
+.ipanel{display:none;padding:14px 15px}
+.ipanel.on{display:block}
+.lbl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;margin-top:14px}
+.lbl:first-child{margin-top:0}
+.desc{font-size:13px;color:var(--text2);line-height:1.7}
+.box{margin-top:10px;border-radius:10px;padding:11px 13px;font-size:13px;line-height:1.65}
+.box strong{font-weight:600}
+.b-am{background:var(--amber-light);color:#5C3A00}.b-am strong{color:var(--amber-dark)}
+.b-pu{background:var(--purple-light);color:#2E1B8C}.b-pu strong{color:var(--purple-dark)}
+.b-te{background:var(--teal-light);color:#04402E}.b-te strong{color:var(--teal-dark)}
+.b-bl{background:var(--blue-light);color:#0D3D7A}.b-bl strong{color:var(--blue-dark)}
+.b-co{background:var(--coral-light);color:var(--red-dark)}.b-co strong{color:#3A0E05}
+.b-re{background:var(--re-bg);color:var(--re-text)}.b-re strong{color:var(--re-dark)}
+.b-gr{background:var(--gray-light);color:#3A3937}.b-gr strong{color:#1C1C1A}
+.b-gn{background:var(--green-light);color:#1E4208}.b-gn strong{color:#0A1E02}
+.picks{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.pick{background:var(--bg);border-radius:10px;padding:11px 13px;border:1px solid var(--border)}
+.pick b{display:block;font-weight:600;color:var(--text);font-size:13px;margin-bottom:3px}
+.pick span{color:var(--text2);font-size:12px;line-height:1.6}
+.tl-row{display:flex;gap:12px;margin-bottom:10px}
+.tl-time{font-size:11px;font-weight:600;color:var(--red);min-width:52px;padding-top:2px;text-align:right;flex-shrink:0}
+.tl-body{flex:1;font-size:13px;color:var(--text2);line-height:1.65;border-left:2px solid var(--border);padding-left:12px;padding-bottom:6px}
+.tl-body strong{font-weight:600;color:var(--text)}
+#top-btn{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));right:16px;width:44px;height:44px;border-radius:50%;background:var(--text);color:#fff;border:none;font-size:20px;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;z-index:200;box-shadow:0 2px 14px rgba(0,0,0,.3);cursor:pointer}
+#top-btn.show{opacity:1;pointer-events:auto}
+.page-footer{text-align:center;padding:24px 16px calc(24px + env(safe-area-inset-bottom));font-size:11px;color:var(--text3);border-top:1px solid var(--border);margin-top:8px}
+@media(min-width:600px){
+  body{font-size:14px}
+  .site-header{padding:20px 24px 16px;height:auto}
+  .site-header h1{font-size:20px}
+  .day-btn{padding:0 18px}
+  .day-panel{padding:24px 20px 60px}
+  .routes{flex-direction:row;flex-wrap:wrap}
+  .route{flex:1;min-width:200px}
+  .picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:7px}
+  .pick b{font-size:12px}.pick span{font-size:11px}
+  .desc{font-size:12px}.box{font-size:12px}
+  .itab{padding:8px 13px;font-size:11px}
+  .stop-name{font-size:13px}
+}
+</style>
+</head>
+<body>
 
+<header class="site-header">
+  <h1>Kyoto · Osaka · Nara — March 26–29</h1>
+  <p>Hilton Kyoto, Kawaramachi Sanjo · Family of 6 · Cherry Blossom Season</p>
+</header>
+
+<nav class="day-nav">
+  <button class="day-btn on" onclick="sd(0)">Day 5 · Thu Mar 26<span>Higashiyama · Gion</span></button>
+  <button class="day-btn" onclick="sd(1)">Day 6 · Fri Mar 27<span>Osaka Day</span></button>
+  <button class="day-btn" onclick="sd(2)">Day 7 · Sat Mar 28<span>Nara Day Trip</span></button>
+  <button class="day-btn" onclick="sd(3)">Day 8 · Sun Mar 29<span>Fushimi · Kinkaku · Ginkaku</span></button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════ DAY 5 ═══ -->
+<div class="day-panel on" id="p0">
+<div class="day-head">
+  <h2>Kyoto's Storybook Streets & Timeless Traditions</h2>
+  <p>Thursday March 26 · Hilton Kyoto → Kiyomizu-dera → Sannenzaka → Gion · ~8km total walking</p>
+</div>
+
+<div class="depart">
+  <div class="depart-title"><span class="icon">🏨</span> Hilton Kyoto → Kiyomizu-dera Temple</div>
+  <div class="dist-badge">📍 Hilton Kyoto is at Kawaramachi Sanjo · 3.5 km southeast to Kiyomizu-dera</div>
+  <div class="routes">
+    <div class="route">
+      <div class="route-label">Taxi (recommended — arrive by 8:30am)</div>
+      <div class="route-time">~12 min · ¥1,200–1,500 · 2 taxis for 6</div>
+      <div class="route-detail">Hotel taxi drop-off at the bottom of Matsubara-dori (清水坂) — the stone approach street. Walk 10 min uphill through the souvenir stalls to the temple gate. Tell drivers: 清水寺参道 (Kiyomizudera Sando). Very light Thursday morning traffic at 8am.</div>
+    </div>
+    <div class="route">
+      <div class="route-label">Bus · City Bus 207</div>
+      <div class="route-time">~25 min · ¥230/person</div>
+      <div class="route-detail">Walk 3 min south to Kawaramachi Sanjo bus stop → City Bus 207 east → Kiyomizumichi stop → walk 10 min uphill. Runs every 10–15 min. Fine for the adults but can be crowded during cherry blossom season with all luggage.</div>
+    </div>
+  </div>
+  <div class="box b-am" style="margin-top:10px"><strong>Coffee before you go:</strong> The Hilton Kyoto lobby café opens at 7am. Alternatively, there's a Starbucks 2 min walk from the hotel at Kawaramachi Sanjo that opens at 7:30am for anyone needing coffee before departure. Grab and take in the taxi.</div>
+</div>
+
+<div class="stop">
+  <div class="stop-hdr" onclick="tg(this)"><div class="stop-ico">🛕</div><div class="stop-meta"><div class="stop-name">Kiyomizu-dera Temple</div><div class="tags"><span class="tag tt">8:30–10:00am</span><span class="tag tg">¥500 adults · Kids ¥200 · Opens 6am</span><span class="tag tk">Cherry blossom platform views · Otowa waterfall</span><span class="tag tf">Matcha soft serve on the approach street</span></div></div><div class="chev">▾</div></div>
+  <div class="stop-body">
+    <div class="itabs"><div class="itab on" onclick="it(this,'kw')">The Temple</div><div class="itab" onclick="it(this,'kw')">Kids Activities</div><div class="itab" onclick="it(this,'kw')">Food & Sweets on the Approach</div><div class="itab" onclick="it(this,'kw')">Coffee & Matcha</div><div class="itab" onclick="it(this,'kw')">Tips</div></div>
+    <div class="ipanel on" id="kw-0"><div class="desc">One of Japan's most dramatic temples — built into a steep hillside using wooden peg-and-beam construction (no nails) in 778 AD. The main hall's wooden stage juts 13 meters out from the cliff face over a valley of cedar and cherry trees. In late March at cherry blossom peak, the view from the stage looking back toward Kyoto is one of the most photographed scenes in all of Japan. The bright orange pagoda contrasting against a sea of pink blossoms and green hills is extraordinary.</div><div class="box b-am"><strong>The wooden stage:</strong> Built from 139 zelkova trees without a single nail, using kake-zukuri (hanging construction). "Jumping off the stage at Kiyomizu" is a Japanese idiom meaning to take a leap of faith — because people historically actually did jump, believing those who survived would be blessed. Tell kids this before they stand on it.</div></div>
+    <div class="ipanel" id="kw-1"><div class="box b-pu"><strong>Otowa waterfall (must-do):</strong> Three streams pour from the rock face at the base of the main hall. Each grants a different blessing: longevity, love, or success in studies. You scoop water with a long-handled cup and drink from one — only one, as drinking from all three is considered greedy. Kids should choose their stream very seriously. The studies stream is most popular with Japanese students before exams.</div><div class="box b-te" style="margin-top:8px"><strong>Jishu Shrine — love stones:</strong> Two stones inside the complex, 18 meters apart. Walk between them with eyes closed and your wish for love (or anything) is granted. Kids who make it across without veering are ecstatic. Kids who drift off course are gently redirected by watching tourists. Hilarious either way.</div><div class="box b-bl" style="margin-top:8px"><strong>Omikuji fortune slips:</strong> ¥100–200 at vending machines throughout the complex. Shake, match number, pull fortune. Bad luck? Tie it to the rack and leave it behind. Compare fortunes over breakfast on the way down.</div><div class="box b-gn" style="margin-top:8px"><strong>Stage jump dare:</strong> The platform is 13 meters high. Japanese people used to actually jump from it as a vow. Ask kids if they would — the historical reality lands very differently once they're standing on the edge looking down.</div></div>
+    <div class="ipanel" id="kw-2"><div class="desc">The 10-minute walk up Matsubara-dori (the stone approach street from the taxi drop-off) passes some of the best traditional snack shops in Kyoto. Buy on the way up.</div><div class="picks"><div class="pick"><b>Yatsuhashi (raw) — sakura flavor ⭐</b><span>Kyoto's most iconic sweet — triangles of soft mochi filled with cinnamon bean paste. In late March only: sakura (cherry blossom) flavor, pink-tinted, lightly floral. Multiple shops on the street; buy fresh rather than boxed. ¥150–300 per piece. Sample from 2–3 shops to compare.</span></div><div class="pick"><b>Matcha soft serve — dark green</b><span>Multiple shops sell soft-serve in matcha from mild to extremely intense. The darkest green "ultra matcha" version (看板 = "extreme") is the most photographed food in Higashiyama. Kids who like matcha love this. Kids who don't will still Instagram it. ¥400–600.</span></div><div class="pick"><b>Mitarashi dango ⭐</b><span>Skewered rice dumplings glazed with sweet soy caramel — warm, sticky, slightly smoky. Grilled to order on charcoal. ¥300 for 3 on a skewer. The quintessential Kyoto temple-district snack. Kids who claim to dislike Japanese food almost always love these.</span></div><div class="pick"><b>Ninenzaka Starbucks (on the way down)</b><span>The only Starbucks in Japan inside a 100-year-old preserved townhouse — tatami floors, wooden beams. Worth stopping in even if you don't usually go to Starbucks. Sakura drinks in late March. ¥700–900. Very crowded but moves fast.</span></div></div></div>
+    <div class="ipanel" id="kw-3"><div class="picks"><div class="pick"><b>% Arabica Higashiyama ⭐</b><span>One of the world's most visually striking cafés — a minimal white counter between Ninenzaka and Yasaka, mountains visible behind it. The coffee that put Kyoto's specialty scene on the global map. Clean, bright, precisely extracted latte. Queue 10–20 min on peak days. Absolutely worth it. ¥700–900. Open daily.</span></div><div class="pick"><b>Nakamura Tokichi — matcha parfait</b><span>A Kyoto tea house dating to 1854, with a takeaway matcha soft serve window on Ninenzaka. Very dark, ceremonial-grade. Can also sit for the famous matcha parfait — layers of matcha jelly, ice cream, shiratama dumplings and red bean. ¥1,000–1,600. Queue 15–30 min. Kids who like matcha remember this forever.</span></div><div class="pick"><b>Gion Tsujiri — in Gion later</b><span>Kyoto's most beloved matcha sweet shop since 1860. Best saved for the Gion section of the afternoon — but note it for the Parfait Tsujiri. ¥1,200–1,500. Open daily.</span></div></div></div>
+    <div class="ipanel" id="kw-4"><div class="box b-co"><strong>Best photo from the platform:</strong> Stand far left on the wooden stage, look northeast. In late March: orange pagoda surrounded by cherry blossoms with Kyoto hills behind. This is the classic image — looks like a painting.</div><div class="box b-gr" style="margin-top:8px"><strong>Exit before 10am:</strong> Tour buses arrive en masse at 10:30am. You've arrived 2 hours ahead of the rush. Leave while you still have the stone streets mostly to yourselves.</div></div>
+  </div>
 </div>
 
 <div class="conn"><div class="conn-line"></div><span>Walk downhill through Sannenzaka → Ninenzaka → 15 min north to Yasaka Shrine</span><div class="conn-line"></div></div>
